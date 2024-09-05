@@ -7,7 +7,6 @@ from flask_cors import CORS  # 用于处理跨域请求
 import requests  # 用于发送HTTP请求
 import re  # 用于正则表达式操作
 
-load_dotenv()
 # 创建Flask应用实例
 app = Flask(__name__)
 # 启用CORS,允许所有来源的跨域请求
