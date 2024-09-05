@@ -12,23 +12,19 @@ app = Flask(__name__)
 # 启用CORS,允许所有来源的跨域请求
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-def read_next_action_from_file(filename='next_action.txt'):
+def read_next_action_from_file():
     """
-    从文件中读取next-action值
-    :param filename: 存储next-action值的文件名
-    :return: 文件中的next-action值
+    从环境变量中读取next-action值
+    :return: 环境变量中的next-action值
     """
-    with open(filename, 'r') as f:
-        return f.read().strip()
+    return os.getenv('NEXT_ACTION', '').strip()
 
-def read_cookies_from_file(filename='cookies.txt'):
+def read_cookies_from_file():
     """
-    从文件中读取cookie
-    :param filename: 存储cookie的文件名
-    :return: 文件中的cookie值
+    从环境变量中读取cookie
+    :return: 环境变量中的cookie值
     """
-    with open(filename, 'r') as f:
-        return f.read().strip()
+    return os.getenv('COOKIES', '').strip()
 
 # 定义NotDiamond API的URL
 NOTDIAMOND_URL = 'https://chat.notdiamond.ai'
@@ -40,11 +36,10 @@ NOTDIAMOND_HEADERS = {
     'accept': 'text/event-stream',
     'accept-language': 'zh-CN,zh;q=0.9',
     'content-type': 'application/json',
-    'next-action': read_next_action_from_file(),  # 从文件读取next-action值
+    'next-action': read_next_action_from_file(),
     'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
-    'cookie': read_cookies_from_file()  # 从文件读取cookie
+    'cookie': read_cookies_from_file()
 }
-
 # 定义可用的模型列表
 MODEL_LIST = [
     {"provider":"openai","model":"gpt-4-turbo-2024-04-09"},
@@ -200,7 +195,7 @@ def handle_non_stream_response(response, model):
         }
     }), 200, {'Content-Type': 'application/json'}
 
-@app.route('/v1/models', methods=['GET'])
+@app.route('api/v1/models', methods=['GET'])
 def proxy_models():
     """
     处理获取可用模型列表的请求
@@ -208,7 +203,7 @@ def proxy_models():
     """
     return jsonify(MODEL_LIST)
 
-@app.route('/v1/chat/completions', methods=['POST'])
+@app.route('api/v1/chat/completions', methods=['POST'])
 def handle_request():
     """
     处理聊天完成请求
