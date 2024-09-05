@@ -195,7 +195,7 @@ def handle_non_stream_response(response, model):
         }
     }), 200, {'Content-Type': 'application/json'}
 
-@app.route('api/v1/models', methods=['GET'])
+@app.route('/api/v1/models', methods=['GET'])
 def proxy_models():
     """
     处理获取可用模型列表的请求
@@ -203,7 +203,7 @@ def proxy_models():
     """
     return jsonify(MODEL_LIST)
 
-@app.route('api/v1/chat/completions', methods=['POST'])
+@app.route('/api/v1/chat/completions', methods=['POST'])
 def handle_request():
     """
     处理聊天完成请求
