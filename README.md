@@ -30,7 +30,7 @@
 
    ```
    git clone https://github.com/venbow/zuansi.git
-   cd notdiamond2api
+   cd zuansi
    ```
 
 2. 创建并填写必要的配置文件：
