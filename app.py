@@ -7,6 +7,7 @@ from flask_cors import CORS  # 用于处理跨域请求
 import requests  # 用于发送HTTP请求
 import re  # 用于正则表达式操作
 
+load_dotenv()
 # 创建Flask应用实例
 app = Flask(__name__)
 # 启用CORS,允许所有来源的跨域请求
@@ -210,6 +211,14 @@ def handle_request():
     :return: 流式或非流式的聊天响应
     """
     try:
+        request_auth = request.headers.get('Authorization', '').strip()
+        if request_auth.startswith('Bearer '):
+            request_auth = request_auth[len('Bearer '):]
+        env_auth = os.getenv("AUTH", '').strip()
+        if request_auth != env_auth:
+            return jsonify({"error": "Unauthorized"}), 401
+        
+        # 继续执行业务逻辑
         request_data = request.get_json()
         messages = request_data.get('messages')
         model = request_data.get('model', '')
