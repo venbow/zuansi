@@ -57,9 +57,9 @@ def get_env_or_file(env_var, filename):
     """
     return os.getenv(env_var, read_file(filename))
     
-logging.info(f'cookie is: {get_env_or_file("COOKIES")}')
-logging.info(f'next-action is: {get_env_or_file("NEXT_ACTION")}')
-logging.info(f'user-id is: {get_env_or_file("USER_ID")}')
+logging.info(f'cookie is: {get_env_or_file("COOKIES", "cookies.txt")}')
+logging.info(f'next-action is: {get_env_or_file("NEXT_ACTION", "NEXT_ACTION.txt")}')
+logging.info(f'user-id is: {get_env_or_file("USER_ID", "USER_ID.txt")}')
 
 NOTDIAMOND_URLS = [
     'https://chat.notdiamond.ai',
