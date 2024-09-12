@@ -10,6 +10,8 @@ from flask import Flask, request, Response, stream_with_context, jsonify
 from flask_cors import CORS
 from functools import lru_cache
 from concurrent.futures import ThreadPoolExecutor
+import logging
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -54,6 +56,10 @@ def get_env_or_file(env_var, filename):
         str: 从环境变量或文件中获取的值（如果未找到）。
     """
     return os.getenv(env_var, read_file(filename))
+    
+logging.info(f'cookie is: {get_env_or_file("COOKIES")}')
+logging.info(f'next-action is: {get_env_or_file("NEXT_ACTION")}')
+logging.info(f'user-id is: {get_env_or_file("USER_ID")}')
 
 NOTDIAMOND_URLS = [
     'https://chat.notdiamond.ai',
